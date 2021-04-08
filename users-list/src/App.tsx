@@ -1,5 +1,11 @@
+import './styles/global.scss'
+
 function App() {
-  return <h1>Hello World</h1>
+  return (
+    <div className="container">
+      <h1>TESTE PRÁTICO - Listagem de Usuários</h1>
+    </div>
+  )
 }
 
 export default App
