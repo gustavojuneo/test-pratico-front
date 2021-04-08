@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  max-width: 1120px;
   height: 100vh;
   padding: 2rem;
 }
@@ -8,7 +7,7 @@
 .mainContainer {
   width: 100%;
   
-  h1 {
+  > h1 {
     margin-bottom: 4rem;
   }
 }
