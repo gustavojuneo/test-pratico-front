@@ -25,7 +25,7 @@ export function AddNewUserModal({
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [site, setSite] = useState('')
+  const [website, setWebSite] = useState('')
 
   async function handleCreateNewUser(event: FormEvent) {
     event.preventDefault()
@@ -33,7 +33,7 @@ export function AddNewUserModal({
       name,
       email,
       phone,
-      site
+      website
     }
 
     if (data.name === '') {
@@ -51,7 +51,7 @@ export function AddNewUserModal({
       return
     }
 
-    if (data.site === '') {
+    if (data.website === '') {
       alert('Por favor preencha o campo Site')
       return
     }
@@ -71,7 +71,7 @@ export function AddNewUserModal({
     setName('')
     setEmail('')
     setPhone('')
-    setSite('')
+    setWebSite('')
     onRequestClose()
   }
 
@@ -79,7 +79,7 @@ export function AddNewUserModal({
     setName('')
     setEmail('')
     setPhone('')
-    setSite('')
+    setWebSite('')
     onRequestClose()
   }
 
@@ -142,8 +142,8 @@ export function AddNewUserModal({
                 type="text"
                 name="site"
                 id="site"
-                value={site}
-                onChange={e => setSite(e.target.value)}
+                value={website}
+                onChange={e => setWebSite(e.target.value)}
                 required
               />
             </div>

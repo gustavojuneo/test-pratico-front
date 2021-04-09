@@ -70,7 +70,7 @@
     tr {
       transition: background 0.2s;
 
-      &:hover {
+      &:hover, &.selected {
         background: #ddd;
       }
       td {

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { api } from '../../services/api'
 import {
@@ -12,7 +12,7 @@ type User = {
   name: string
   email: string
   phone: string
-  site: string
+  website: string
 }
 
 interface TableProps {
@@ -21,6 +21,7 @@ interface TableProps {
 
 export function Table({ users }: TableProps) {
   const dispatch = useDispatch()
+  const [selectedUser, setSelectedUser] = useState(0)
 
   const handleDeleteUser = useCallback(
     async (userId: number) => {
@@ -35,6 +36,7 @@ export function Table({ users }: TableProps) {
 
   function handleSelectUserDetails(userId: number) {
     dispatch(CurrentUserSelected(userId))
+    setSelectedUser(userId)
   }
 
   return (
@@ -52,7 +54,10 @@ export function Table({ users }: TableProps) {
           </thead>
           <tbody>
             {users.map(user => (
-              <tr key={user.id}>
+              <tr
+                key={user.id}
+                className={selectedUser === user.id ? styles.selected : ''}
+              >
                 <td onClick={() => handleSelectUserDetails(user.id)}>
                   {user.name}
                 </td>
