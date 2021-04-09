@@ -14,10 +14,6 @@ interface TableProps {
 }
 
 export function Table({ users, onDelete }: TableProps) {
-  // console.log(users)
-
-  users.map(user => console.log(user.name))
-
   return (
     <div className={styles.tableContainer}>
       <table className={styles.usersTable}>
