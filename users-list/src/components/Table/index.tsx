@@ -5,15 +5,11 @@ import {
   CurrentUserSelected,
   deleteUserFromList
 } from '../../store/modules/users/actions'
-import styles from './styles.module.scss'
+import { User } from '../../store/modules/users/types'
 
-type User = {
-  id: number
-  name: string
-  email: string
-  phone: string
-  website: string
-}
+import { EditUserModal } from '../EditUserModal'
+
+import styles from './styles.module.scss'
 
 interface TableProps {
   users: User[]
@@ -22,6 +18,9 @@ interface TableProps {
 export function Table({ users }: TableProps) {
   const dispatch = useDispatch()
   const [selectedUser, setSelectedUser] = useState(0)
+  const [currentEditUser, setCurrentEditUser] = useState<User>({} as User)
+
+  const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false)
 
   const handleDeleteUser = useCallback(
     async (userId: number) => {
@@ -34,9 +33,22 @@ export function Table({ users }: TableProps) {
     [dispatch]
   )
 
+  function handleEditUser(user: User) {
+    setCurrentEditUser(user)
+    handleOpenNewUserModal()
+  }
+
   function handleSelectUserDetails(userId: number) {
     dispatch(CurrentUserSelected(userId))
     setSelectedUser(userId)
+  }
+
+  function handleOpenNewUserModal() {
+    setIsEditUserModalOpen(true)
+  }
+
+  function handleCloseNewUserModal() {
+    setIsEditUserModalOpen(false)
   }
 
   return (
@@ -65,6 +77,7 @@ export function Table({ users }: TableProps) {
                   {user.email}
                 </td>
                 <td>
+                  <button onClick={() => handleEditUser(user)}>Editar</button>
                   <button onClick={() => handleDeleteUser(user.id)}>
                     Excluir
                   </button>
@@ -73,6 +86,11 @@ export function Table({ users }: TableProps) {
             ))}
           </tbody>
         </table>
+        <EditUserModal
+          user={currentEditUser}
+          isOpen={isEditUserModalOpen}
+          onRequestClose={handleCloseNewUserModal}
+        />
       </div>
     </div>
   )
