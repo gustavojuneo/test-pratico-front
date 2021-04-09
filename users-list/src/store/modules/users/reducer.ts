@@ -13,6 +13,34 @@ const users: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
 
       return { ...state, data }
     }
+    case ActionTypes.deleteUserFromList: {
+      const { userId } = action.payload
+
+      const data = state.data.filter(user => user.id !== userId)
+
+      return { ...state, data }
+    }
+    case ActionTypes.createNewUser: {
+      const { data } = state
+      const { user } = action.payload
+
+      const newData = [user, ...data]
+
+      return {
+        ...state,
+        data: newData
+      }
+    }
+    case ActionTypes.currentUserSelected: {
+      const { userId } = action.payload
+
+      const selectedUser = state.data.find(user => user.id === userId)
+
+      return {
+        ...state,
+        selectedUser
+      }
+    }
     default: {
       return state
     }

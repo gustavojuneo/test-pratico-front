@@ -4,25 +4,21 @@ import Modal from 'react-modal'
 import { FiX } from 'react-icons/fi'
 
 import styles from './styles.module.scss'
-
-type User = {
-  name: string
-  email: string
-  phone: string
-  site: string
-}
+import { api } from '../../services/api'
+import { useDispatch } from 'react-redux'
+import { createNewUser } from '../../store/modules/users/actions'
 
 interface AddNewUserModalProps {
-  onCreate: (user: User) => void
   isOpen: boolean
   onRequestClose: () => void
 }
 
 export function AddNewUserModal({
-  onCreate,
   isOpen,
   onRequestClose
 }: AddNewUserModalProps) {
+  const dispatch = useDispatch()
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -30,14 +26,24 @@ export function AddNewUserModal({
 
   async function handleCreateNewUser(event: FormEvent) {
     event.preventDefault()
-    const newUser = {
+    const data = {
       name,
       email,
       phone,
       site
     }
 
-    await onCreate(newUser)
+    const response = await api.post('users', data)
+
+    const newUser = {
+      id: response.data.id,
+      ...data
+    }
+
+    if (response.status === 201) {
+      dispatch(createNewUser(newUser))
+    }
+
     setName('')
     setEmail('')
     setPhone('')

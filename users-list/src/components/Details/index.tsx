@@ -1,27 +1,33 @@
+import { User } from '../../store/modules/users/types'
 import styles from './styles.module.scss'
 
-export function Details() {
+interface DetailsProps {
+  user?: User
+}
+
+export function Details({ user }: DetailsProps) {
   return (
     <div className={styles.container}>
+      <h2>Detalhes</h2>
       <section className={styles.detailsContent}>
         <div className={styles.infoBlock}>
           <strong>Nome:</strong>
-          <span>Gustavo</span>
+          <span>{user?.name}</span>
         </div>
 
         <div className={styles.infoBlock}>
           <strong>Email:</strong>
-          <span>gustavo@outlook.com</span>
+          <span>{user?.email}</span>
         </div>
 
         <div className={styles.infoBlock}>
           <strong>Telefone:</strong>
-          <span>(38) 98812-6329</span>
+          <span>{user?.phone}</span>
         </div>
 
         <div className={styles.infoBlock}>
           <strong>Site:</strong>
-          <span>github.com/gustavojuneo</span>
+          <span>{user?.site}</span>
         </div>
       </section>
     </div>

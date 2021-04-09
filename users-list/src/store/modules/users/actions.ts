@@ -8,3 +8,30 @@ export function getAllUsersToList(data: User[]) {
     }
   }
 }
+
+export function createNewUser(user: User) {
+  return {
+    type: ActionTypes.createNewUser,
+    payload: {
+      user
+    }
+  }
+}
+
+export function deleteUserFromList(userId: number) {
+  return {
+    type: ActionTypes.deleteUserFromList,
+    payload: {
+      userId
+    }
+  }
+}
+
+export function CurrentUserSelected(userId: number) {
+  return {
+    type: ActionTypes.currentUserSelected,
+    payload: {
+      userId
+    }
+  }
+}

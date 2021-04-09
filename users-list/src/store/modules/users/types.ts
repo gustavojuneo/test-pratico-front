@@ -1,7 +1,8 @@
 export enum ActionTypes {
   getAllUsers = 'GET_ALL_USERS',
   createNewUser = 'CREATE_NEW_USER',
-  deleteUserFromList = 'DELETE_USER_FROM_LIST'
+  deleteUserFromList = 'DELETE_USER_FROM_LIST',
+  currentUserSelected = 'CURRENT_USER_SELECTED'
 }
 
 export interface User {
@@ -14,4 +15,5 @@ export interface User {
 
 export interface UsersState {
   readonly data: User[]
+  readonly selectedUser?: User
 }

@@ -10,16 +10,12 @@ import { Table } from '../Table'
 
 import styles from './styles.module.scss'
 
-type UserRequest = {
-  name: string
-  email: string
-  phone: string
-  site: string
-}
-
 export function List() {
   const dispatch = useDispatch()
   const users = useSelector<ApplicationState, User[]>(state => state.users.data)
+  const selectedUser = useSelector<ApplicationState, User | undefined>(
+    state => state.users.selectedUser
+  )
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
 
   useEffect(() => {
@@ -32,24 +28,6 @@ export function List() {
     dispatch(getAllUsersToList(response.data))
   }
 
-  async function handleDelete(userId: number) {
-    const response = await api.delete(`users/${userId}`)
-
-    // if (response.status === 200) {
-    //   const newUsers = users.filter(user => user.id !== userId)
-
-    //   setUsers(newUsers)
-    // }
-  }
-
-  async function handleCreateUser(user: UserRequest) {
-    const response = await api.post('users', user)
-
-    // if (response.status === 201) {
-    //   setUsers([response.data, ...users])
-    // }
-  }
-
   function handleOpenNewUserModal() {
     setIsNewUserModalOpen(true)
   }
@@ -60,9 +38,11 @@ export function List() {
 
   return (
     <div className={styles.container}>
-      <Table users={users} onDelete={handleDelete} />
+      <div className={styles.usersList}>
+        <Table users={users} />
 
-      <Details />
+        {selectedUser && <Details user={selectedUser} />}
+      </div>
 
       <button onClick={handleOpenNewUserModal} className={styles.newUserButton}>
         Adicionar novo
@@ -71,7 +51,6 @@ export function List() {
       <AddNewUserModal
         isOpen={isNewUserModalOpen}
         onRequestClose={handleCloseNewUserModal}
-        onCreate={handleCreateUser}
       />
     </div>
   )

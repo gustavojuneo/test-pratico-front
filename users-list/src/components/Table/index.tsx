@@ -1,3 +1,10 @@
+import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { api } from '../../services/api'
+import {
+  CurrentUserSelected,
+  deleteUserFromList
+} from '../../store/modules/users/actions'
 import styles from './styles.module.scss'
 
 type User = {
@@ -10,10 +17,26 @@ type User = {
 
 interface TableProps {
   users: User[]
-  onDelete: (id: number) => void
 }
 
-export function Table({ users, onDelete }: TableProps) {
+export function Table({ users }: TableProps) {
+  const dispatch = useDispatch()
+
+  const handleDeleteUser = useCallback(
+    async (userId: number) => {
+      const response = await api.delete(`users/${userId}`)
+
+      if (response.status === 200) {
+        dispatch(deleteUserFromList(userId))
+      }
+    },
+    [dispatch]
+  )
+
+  function handleSelectUserDetails(userId: number) {
+    dispatch(CurrentUserSelected(userId))
+  }
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.usersTable}>
@@ -27,10 +50,16 @@ export function Table({ users, onDelete }: TableProps) {
         <tbody>
           {users.map(user => (
             <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
+              <td onClick={() => handleSelectUserDetails(user.id)}>
+                {user.name}
+              </td>
+              <td onClick={() => handleSelectUserDetails(user.id)}>
+                {user.email}
+              </td>
               <td>
-                <button onClick={() => onDelete(user.id)}>Excluir</button>
+                <button onClick={() => handleDeleteUser(user.id)}>
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}
