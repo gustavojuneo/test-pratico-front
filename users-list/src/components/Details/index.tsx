@@ -27,7 +27,7 @@ export function Details({ user }: DetailsProps) {
 
         <div className={styles.infoBlock}>
           <strong>Site:</strong>
-          <span>{user?.site}</span>
+          <span>{user?.site ? user.site : 'Não possui'}</span>
         </div>
       </section>
     </div>

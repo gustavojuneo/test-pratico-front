@@ -1,5 +1,4 @@
 import { Reducer } from 'redux'
-import produce from 'immer'
 import { ActionTypes, UsersState } from './types'
 
 const INITIAL_STATE: UsersState = {
@@ -17,6 +16,10 @@ const users: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
       const { userId } = action.payload
 
       const data = state.data.filter(user => user.id !== userId)
+
+      if (state.selectedUser?.id === userId) {
+        return { ...state, data, selectedUser: undefined }
+      }
 
       return { ...state, data }
     }

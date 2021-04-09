@@ -38,33 +38,37 @@ export function Table({ users }: TableProps) {
   }
 
   return (
-    <div className={styles.tableContainer}>
-      <table className={styles.usersTable}>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user.id}>
-              <td onClick={() => handleSelectUserDetails(user.id)}>
-                {user.name}
-              </td>
-              <td onClick={() => handleSelectUserDetails(user.id)}>
-                {user.email}
-              </td>
-              <td>
-                <button onClick={() => handleDeleteUser(user.id)}>
-                  Excluir
-                </button>
-              </td>
+    <div className={styles.container}>
+      <h2>Usuários</h2>
+
+      <div className={styles.tableContainer}>
+        <table className={styles.usersTable}>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user.id}>
+                <td onClick={() => handleSelectUserDetails(user.id)}>
+                  {user.name}
+                </td>
+                <td onClick={() => handleSelectUserDetails(user.id)}>
+                  {user.email}
+                </td>
+                <td>
+                  <button onClick={() => handleDeleteUser(user.id)}>
+                    Excluir
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

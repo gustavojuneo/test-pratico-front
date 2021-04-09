@@ -19,14 +19,14 @@ export function List() {
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
 
   useEffect(() => {
+    async function getUserList() {
+      const response = await api.get('users')
+
+      dispatch(getAllUsersToList(response.data))
+    }
+
     getUserList()
-  }, [])
-
-  async function getUserList() {
-    const response = await api.get('users')
-
-    dispatch(getAllUsersToList(response.data))
-  }
+  }, [dispatch])
 
   function handleOpenNewUserModal() {
     setIsNewUserModalOpen(true)

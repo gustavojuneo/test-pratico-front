@@ -8,6 +8,14 @@
   margin-left: 2rem;
   padding: 0 1rem;
 
+  @media (max-width: 920px) {
+    max-width: 200px;
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+
   h2 {
     margin-bottom: 1rem;
   }
