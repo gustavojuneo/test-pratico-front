@@ -14,6 +14,10 @@ interface TableProps {
 }
 
 export function Table({ users, onDelete }: TableProps) {
+  // console.log(users)
+
+  users.map(user => console.log(user.name))
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.usersTable}>
@@ -26,7 +30,7 @@ export function Table({ users, onDelete }: TableProps) {
         </thead>
         <tbody>
           {users.map(user => (
-            <tr>
+            <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>

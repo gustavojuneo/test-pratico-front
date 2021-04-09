@@ -1,18 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../../services/api'
+import { IState } from '../../store'
+import { getAllUsersToList } from '../../store/modules/list/actions'
+import { User } from '../../store/modules/list/types'
 import { AddNewUserModal } from '../AddNewUserModal'
 import { Details } from '../Details'
 import { Table } from '../Table'
 
 import styles from './styles.module.scss'
-
-type User = {
-  id: number
-  name: string
-  email: string
-  phone: string
-  site: string
-}
 
 type UserRequest = {
   name: string
@@ -22,35 +18,36 @@ type UserRequest = {
 }
 
 export function List() {
-  const [users, setUsers] = useState<User[]>([])
+  const dispatch = useDispatch()
+  const users = useSelector<IState, User[]>(state => state.users.list)
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
 
   useEffect(() => {
-    async function getUserList() {
-      const response = await api.get('users')
-
-      setUsers(response.data)
-    }
-
     getUserList()
   }, [])
+
+  async function getUserList() {
+    const response = await api.get('users')
+
+    dispatch(getAllUsersToList(response.data))
+  }
 
   async function handleDelete(userId: number) {
     const response = await api.delete(`users/${userId}`)
 
-    if (response.status === 200) {
-      const newUsers = users.filter(user => user.id !== userId)
+    // if (response.status === 200) {
+    //   const newUsers = users.filter(user => user.id !== userId)
 
-      setUsers(newUsers)
-    }
+    //   setUsers(newUsers)
+    // }
   }
 
   async function handleCreateUser(user: UserRequest) {
     const response = await api.post('users', user)
 
-    if (response.status === 201) {
-      setUsers([response.data, ...users])
-    }
+    // if (response.status === 201) {
+    //   setUsers([response.data, ...users])
+    // }
   }
 
   function handleOpenNewUserModal() {
@@ -63,7 +60,7 @@ export function List() {
 
   return (
     <div className={styles.container}>
-      <Table users={users} onDelete={handleDelete} />
+      {/* <Table users={users} onDelete={handleDelete} /> */}
 
       <Details />
 

@@ -7,3 +7,20 @@
   align-items: center;
   justify-content: center;
 }
+
+.newUserButton {
+  border: 0;
+  max-width: 200px;
+  padding: 1rem 2rem;
+
+  background: var(--blue);
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: bold;
+
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
