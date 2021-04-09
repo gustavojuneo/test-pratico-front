@@ -13,7 +13,7 @@
   <img src="./.github/screenshot.png">
 </div>
 
-O objetivo do teste foi criar uma aplicação básica com componentes de listagem e manutenção de usuários, utilizando a JsonPlaceholder API para fazer as requisições HTTP, foi utilizado o redux para controle de estado da lista de usuários onde foram criadas actions e reducers para cada tipo de ação do usuário.
+O objetivo do teste foi criar uma aplicação básica com componentes de listagem e manutenção de usuários, como bônus criei também a função de editar um usuário para que se tornasse um CRUD completo, utilizando a JsonPlaceholder API para fazer as requisições HTTP, foi utilizado o redux para controle de estado da lista de usuários onde foram criadas actions e reducers para cada tipo de ação do usuário.
 
 ## Tecnologias
 
