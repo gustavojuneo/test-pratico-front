@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../../services/api'
+import { ApplicationState } from '../../store'
 import {
   CurrentUserSelected,
   deleteUserFromList
@@ -17,7 +18,9 @@ interface TableProps {
 
 export function Table({ users }: TableProps) {
   const dispatch = useDispatch()
-  const [selectedUser, setSelectedUser] = useState(0)
+  const selectedUser = useSelector<ApplicationState, User | undefined>(
+    state => state.users.selectedUser
+  )
   const [currentEditUser, setCurrentEditUser] = useState<User>({} as User)
 
   const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false)
@@ -40,7 +43,6 @@ export function Table({ users }: TableProps) {
 
   function handleSelectUserDetails(userId: number) {
     dispatch(CurrentUserSelected(userId))
-    setSelectedUser(userId)
   }
 
   function handleOpenNewUserModal() {
@@ -68,7 +70,7 @@ export function Table({ users }: TableProps) {
             {users.map(user => (
               <tr
                 key={user.id}
-                className={selectedUser === user.id ? styles.selected : ''}
+                className={selectedUser?.id === user.id ? styles.selected : ''}
               >
                 <td onClick={() => handleSelectUserDetails(user.id)}>
                   {user.name}
@@ -77,7 +79,12 @@ export function Table({ users }: TableProps) {
                   {user.email}
                 </td>
                 <td>
-                  <button onClick={() => handleEditUser(user)}>Editar</button>
+                  <button
+                    onClick={() => handleEditUser(user)}
+                    className={styles.editButton}
+                  >
+                    Editar
+                  </button>
                   <button onClick={() => handleDeleteUser(user.id)}>
                     Excluir
                   </button>

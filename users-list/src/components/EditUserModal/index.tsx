@@ -7,8 +7,8 @@ import { User } from '../../store/modules/users/types'
 import { api } from '../../services/api'
 import { useDispatch } from 'react-redux'
 import {
-  createNewUser,
-  CurrentUserSelected
+  CurrentUserSelected,
+  editUser
 } from '../../store/modules/users/actions'
 
 import styles from './styles.module.scss'
@@ -25,15 +25,15 @@ export function EditUserModal({
   user
 }: EditUserModalProps) {
   const dispatch = useDispatch()
-  const [newName, setName] = useState('')
-  const [newEmail, setEmail] = useState('')
-  const [newPhone, setPhone] = useState('')
-  const [newWebsite, setWebSite] = useState('')
+  const [newName, setNewName] = useState('')
+  const [newEmail, setNewEmail] = useState('')
+  const [newPhone, setNewPhone] = useState('')
+  const [newWebsite, setNewWebSite] = useState('')
 
   const name = newName ? newName : user.name
   const email = newEmail ? newEmail : user.email
   const phone = newPhone ? newPhone : user.phone
-  const website = newWebsite ? newName : user.website
+  const website = newWebsite ? newWebsite : user.website
 
   async function handleEditUser(event: FormEvent) {
     event.preventDefault()
@@ -45,52 +45,49 @@ export function EditUserModal({
       website
     }
 
-    console.log(data)
+    if (data.name === '') {
+      alert('Por favor preencha o campo Nome')
+      return
+    }
 
-    // if (data.name === '') {
-    //   alert('Por favor preencha o campo Nome')
-    //   return
-    // }
+    if (data.email === '') {
+      alert('Por favor preencha o campo E-mail')
+      return
+    }
 
-    // if (data.email === '') {
-    //   alert('Por favor preencha o campo E-mail')
-    //   return
-    // }
+    if (data.phone === '') {
+      alert('Por favor preencha o campo Telefone')
+      return
+    }
 
-    // if (data.phone === '') {
-    //   alert('Por favor preencha o campo Telefone')
-    //   return
-    // }
+    if (data.website === '') {
+      alert('Por favor preencha o campo Site')
+      return
+    }
 
-    // if (data.website === '') {
-    //   alert('Por favor preencha o campo Site')
-    //   return
-    // }
+    if (data.id > 10) {
+      dispatch(editUser(data))
+      dispatch(CurrentUserSelected(data.id))
+    } else {
+      const response = await api.put(`users/${user.id}`, data)
+      if (response.status === 200) {
+        dispatch(editUser(response.data))
+        dispatch(CurrentUserSelected(response.data.id))
+      }
+    }
 
-    // const response = await api.post('users', data)
-
-    // const newUser = {
-    //   id: response.data.id,
-    //   ...data
-    // }
-
-    // if (response.status === 201) {
-    //   dispatch(createNewUser(newUser))
-    //   dispatch(CurrentUserSelected(response.data.id))
-    // }
-
-    // setName('')
-    // setEmail('')
-    // setPhone('')
-    // setWebSite('')
-    // onRequestClose()
+    setNewName('')
+    setNewEmail('')
+    setNewPhone('')
+    setNewWebSite('')
+    onRequestClose()
   }
 
   function handleCancel() {
-    setName('')
-    setEmail('')
-    setPhone('')
-    setWebSite('')
+    setNewName('')
+    setNewEmail('')
+    setNewPhone('')
+    setNewWebSite('')
     onRequestClose()
   }
 
@@ -116,7 +113,7 @@ export function EditUserModal({
                 name="name"
                 id="name"
                 defaultValue={user.name}
-                onChange={e => setName(e.target.value)}
+                onChange={e => setNewName(e.target.value)}
                 required
               />
             </div>
@@ -128,7 +125,7 @@ export function EditUserModal({
                 name="email"
                 id="email"
                 defaultValue={user.email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setNewEmail(e.target.value)}
                 required
               />
             </div>
@@ -142,7 +139,7 @@ export function EditUserModal({
                 name="phone"
                 id="phone"
                 defaultValue={user.phone}
-                onChange={e => setPhone(e.target.value)}
+                onChange={e => setNewPhone(e.target.value)}
                 required
               />
             </div>
@@ -154,7 +151,7 @@ export function EditUserModal({
                 name="site"
                 id="site"
                 defaultValue={user.website}
-                onChange={e => setWebSite(e.target.value)}
+                onChange={e => setNewWebSite(e.target.value)}
                 required
               />
             </div>
@@ -162,7 +159,7 @@ export function EditUserModal({
 
           <div className={styles.buttonsForm}>
             <button type="submit" className={styles.submitButton}>
-              Gravar
+              Editar
             </button>
             <button type="button" onClick={handleCancel}>
               Cancelar

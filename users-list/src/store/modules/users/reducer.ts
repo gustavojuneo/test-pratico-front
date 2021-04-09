@@ -34,6 +34,19 @@ const users: Reducer<UsersState> = (state = INITIAL_STATE, action) => {
         data: newData
       }
     }
+    case ActionTypes.editUser: {
+      const { user } = action.payload
+
+      const data = state.data.map(dataUser => {
+        if (dataUser.id === user.id) {
+          return user
+        }
+
+        return dataUser
+      })
+
+      return { ...state, data }
+    }
     case ActionTypes.currentUserSelected: {
       const { userId } = action.payload
 

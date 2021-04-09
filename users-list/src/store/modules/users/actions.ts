@@ -18,6 +18,15 @@ export function createNewUser(user: User) {
   }
 }
 
+export function editUser(user: User) {
+  return {
+    type: ActionTypes.editUser,
+    payload: {
+      user
+    }
+  }
+}
+
 export function deleteUserFromList(userId: number) {
   return {
     type: ActionTypes.deleteUserFromList,

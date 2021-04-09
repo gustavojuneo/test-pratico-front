@@ -97,6 +97,14 @@
           border-radius: 0.25rem;
   
           transition: opacity 0.2s;
+
+          & + button {
+            margin-left: 1rem;
+          }
+
+          &.editButton {
+            background: var(--orange);
+          }
   
           &:hover {
             opacity: 0.8;
