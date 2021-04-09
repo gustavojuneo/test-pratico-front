@@ -1,9 +1,9 @@
-import { createStore } from 'redux'
-import { UsersState } from './modules/list/types'
+import { createStore, Store } from 'redux'
+import { UsersState } from './modules/users/types'
 import rootReducer from './modules/rootReducer'
 
-export interface IState {
+export interface ApplicationState {
   users: UsersState
 }
 
-export const store = createStore(rootReducer)
+export const store: Store<ApplicationState> = createStore(rootReducer)

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../../services/api'
-import { IState } from '../../store'
-import { getAllUsersToList } from '../../store/modules/list/actions'
-import { User } from '../../store/modules/list/types'
+import { ApplicationState } from '../../store'
+import { getAllUsersToList } from '../../store/modules/users/actions'
+import { User } from '../../store/modules/users/types'
 import { AddNewUserModal } from '../AddNewUserModal'
 import { Details } from '../Details'
 import { Table } from '../Table'
@@ -19,7 +19,7 @@ type UserRequest = {
 
 export function List() {
   const dispatch = useDispatch()
-  const users = useSelector<IState, User[]>(state => state.users.list)
+  const users = useSelector<ApplicationState, User[]>(state => state.users.data)
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false)
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export function List() {
 
   return (
     <div className={styles.container}>
-      {/* <Table users={users} onDelete={handleDelete} /> */}
+      <Table users={users} onDelete={handleDelete} />
 
       <Details />
 

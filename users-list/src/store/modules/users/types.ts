@@ -13,5 +13,5 @@ export interface User {
 }
 
 export interface UsersState {
-  list: User[]
+  readonly data: User[]
 }
